@@ -122,11 +122,11 @@ const esc=v=>String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"
 const ago=t=>{const s=Math.max(0,(Date.now()-new Date(t))/1000);if(s<60)return"Just now";const m=Math.floor(s/60);if(m<60)return m+" min ago";const h=Math.floor(m/60);if(h<24)return h+" hr ago";const d=Math.floor(h/24);return d+(d==1?" day ago":" days ago")};
 let token=null;try{token=sessionStorage.getItem("oh_token")}catch(e){}
 async function api(path,opts={}){const h={"Content-Type":"application/json"};if(token&&opts.auth!==false)h.Authorization="Bearer "+token;const r=await fetch("/api"+path,{...opts,headers:h});if(r.status===204)return null;const j=await r.json().catch(()=>({}));if(!r.ok){if(r.status===401&&token&&path.indexOf("/admin/login")!==0)signOut();const e=new Error(j.error||"Request failed");e.data=j;throw e}return j}
-async function loadReports(){try{const j=await api("/reports?limit=500",{auth:false});reports=j.reports;render()}catch(e){$("feed").innerHTML='<p class="empty">Could not load reports. Check your connection.</p>'}}
+async function loadReports(quiet){try{const j=await api("/reports?limit=500",{auth:false});reports=j.reports;render()}catch(e){if(!quiet)$("feed").innerHTML='<p class="empty">Could not load reports. Check your connection.</p>'}}
 const applyCreate=r=>{if(!reports.some(x=>x.id===r.id)){reports.unshift(r);render()}};
 const applyUpdate=r=>{const i=reports.findIndex(x=>x.id===r.id);if(i>-1){reports[i]=r;render()}};
 const applyDelete=id=>{reports=reports.filter(x=>x.id!==id);render()};
-function connect(){if(!window.EventSource)return;const es=new EventSource("/api/stream");es.addEventListener("report:created",e=>applyCreate(JSON.parse(e.data)));es.addEventListener("report:updated",e=>applyUpdate(JSON.parse(e.data)));es.addEventListener("report:deleted",e=>applyDelete(JSON.parse(e.data).id));es.onopen=()=>loadReports()}
+function connect(){const busy=()=>{const a=document.activeElement;return a&&a.closest&&a.closest("#adminBody")};const poll=()=>{if(!document.hidden&&!busy())loadReports(true)};setInterval(poll,15000);document.addEventListener("visibilitychange",poll)}
 const area=$("area");Object.keys(areas).forEach(a=>area.add(new Option(a,a)));
 function updateHazards(){const s=$("sector").value,h=$("hazard");h.innerHTML="";if(!s){h.disabled=true;h.add(new Option("Select a sector first",""));return}h.disabled=false;h.add(new Option("Select hazard type",""));hazards[s].forEach(x=>h.add(new Option(x,x)))}
 function visible(){return reports.filter(r=>(fSector==="All"||r.sector===fSector)&&(!fArea||r.area===fArea))}
