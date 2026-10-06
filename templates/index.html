@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>One Health Cross-Sector Reporting Tool</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#36454d;--deep:#2a373e;--panel:#425760;--line:rgba(255,255,255,.12);--tx:#e8eef0;--mu:#9db0b8;--hi:#e89a8a;--me:#e6c57d;--lo:#8fcaa8;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:light){:root:not([data-theme=dark]){--bg:#36454d}}
+*,*:before,*:after{box-sizing:inherit}html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:radial-gradient(120% 90% at 55% 20%,#4a5d66 0%,var(--bg) 45%,var(--deep) 100%) fixed;color:var(--tx);font:400 15px/1.55 "DM Sans",system-ui,sans-serif;min-height:100vh}
+.shell{display:grid;grid-template-columns:64px 1fr;min-height:100vh}
+.rail{background:var(--deep);border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:22px 0;position:sticky;top:0;height:100vh}
+.rail i{display:block;width:20px;height:2px;background:var(--tx);margin:5px 0}.rail i:nth-child(2){width:13px;margin-left:7px}
+.rail span{writing-mode:vertical-rl;transform:rotate(180deg);color:var(--mu);font-size:12px;letter-spacing:.08em}
+main{padding:0 clamp(18px,3vw,44px) 48px;min-width:0}
+header{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;padding:24px 0}
+.logo{font-size:26px;font-weight:400;letter-spacing:-.01em}.logo b{font-weight:400;color:var(--lo)}
+nav{display:flex;gap:6px 28px;flex-wrap:wrap}
+nav button{background:none;border:0;border-bottom:1px solid transparent;color:var(--mu);font:inherit;font-size:14px;padding:4px 0;cursor:pointer;transition:color .2s,border-color .2s}
+nav button:hover,nav button.on{color:var(--tx);border-color:var(--tx)}
+.btn{background:var(--panel);color:var(--tx);border:1px solid var(--line);font:500 14px "DM Sans",sans-serif;padding:13px 24px;cursor:pointer;text-decoration:none;display:inline-block;transition:background .2s}
+.btn:hover{background:#51696f}
+:focus-visible{outline:2px solid var(--lo);outline-offset:2px}
+.hero{position:relative;overflow:hidden;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin:18px 0 34px;padding:56px 0 28px;min-height:280px}
+.hero>div{position:relative;z-index:1}
+.himg{position:absolute;right:0;top:0;width:75%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.4s ease;z-index:0;pointer-events:none;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 55%),linear-gradient(0deg,transparent 0,#000 45%);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent 0,#000 55%),linear-gradient(0deg,transparent 0,#000 45%);mask-composite:intersect}
+.himg.in{opacity:.55}
+.admin{border:1px solid var(--line);background:rgba(42,55,62,.55);margin-bottom:8px}
+.ah{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:18px 26px;border-bottom:1px solid var(--line)}.ah h2{margin:0}
+.ah .btn{padding:8px 16px}
+.ab{padding:22px 26px}.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--line);margin-bottom:22px}
+.kpis div{padding:16px 20px;border-right:1px solid var(--line);color:var(--mu);font-size:13px}.kpis div:last-child{border:0}.kpis b{display:block;font-size:34px;font-weight:300;color:var(--tx);line-height:1.1}
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-bottom:24px}.charts h3{font-size:14px;font-weight:500;margin:0 0 12px;color:var(--mu)}
+.bar{display:grid;grid-template-columns:100px 1fr 24px;gap:10px;align-items:center;font-size:13px;margin:8px 0}.bar i{display:block;height:8px;background:var(--lo);transition:width .6s}
+.stack{display:flex;height:14px;margin-bottom:10px;background:rgba(0,0,0,.2)}.stack i{display:block;transition:width .6s}
+.tw{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:13px;min-width:640px}th{text-align:left;color:var(--mu);font-weight:400;padding:8px 10px;border-bottom:1px solid var(--line)}td{padding:10px;border-bottom:1px solid var(--line);vertical-align:middle}
+td select{margin:0;padding:6px 8px;font-size:13px;width:auto}.del{background:none;border:1px solid var(--line);color:var(--mu);padding:5px 10px;cursor:pointer;font:inherit;font-size:12px}.del:hover{color:var(--hi);border-color:var(--hi)}
+.skel{height:90px;margin-bottom:12px;background:linear-gradient(90deg,rgba(255,255,255,.04),rgba(255,255,255,.12),rgba(255,255,255,.04));background-size:200% 100%;animation:sh 1.4s linear infinite}
+@keyframes sh{to{background-position:-200% 0}}
+svg{opacity:0;transition:opacity .8s}svg.ready{opacity:1}
+@media(max-width:760px){.kpis{grid-template-columns:1fr 1fr}.kpis div:nth-child(2){border-right:0}.charts{grid-template-columns:1fr}.himg{width:100%}}
+@media(prefers-reduced-motion:reduce){.skel,.himg,svg,.bar i,.stack i{animation:none;transition:none}}
+.hero h1{font-size:clamp(30px,4.2vw,50px);font-weight:500;line-height:1.1;letter-spacing:-.02em;margin:0 0 12px;max-width:16em}
+.hero p{margin:0;color:var(--mu);max-width:34em;font-size:14px}
+.stat{border-left:1px solid var(--line);padding-left:20px}.stat b{display:block;font-size:44px;font-weight:300;line-height:1}.stat span{color:var(--mu);font-size:13px}
+.grid{display:grid;grid-template-columns:minmax(300px,350px) minmax(0,1fr) minmax(280px,360px);gap:0;border:1px solid var(--line);background:rgba(42,55,62,.55)}
+.col{padding:26px;border-right:1px solid var(--line);min-width:0}.col:last-child{border-right:0}
+h2{font-size:20px;font-weight:500;margin:0 0 4px}.sub{color:var(--mu);font-size:13px;margin:0 0 20px}
+label,legend{display:block;font-size:13px;color:var(--mu);margin-bottom:6px}
+select,textarea{width:100%;background:rgba(0,0,0,.18);border:1px solid var(--line);color:var(--tx);font:inherit;font-size:14px;padding:11px 12px;border-radius:0;margin-bottom:16px}
+select:disabled{opacity:.5}select option{background:#2a373e}
+textarea{resize:none;margin-bottom:4px}.cc{text-align:right;font-size:12px;color:var(--mu);margin-bottom:14px}
+fieldset{border:0;padding:0;margin:0 0 20px}.urg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.urg input{position:absolute;opacity:0}.urg span{display:block;text-align:center;padding:10px;border:1px solid var(--line);cursor:pointer;font-size:14px;color:var(--mu);transition:all .2s}
+.urg input:checked+span{color:var(--tx)}.urg .L input:checked+span{border-color:var(--lo);background:rgba(143,202,168,.14)}.urg .M input:checked+span{border-color:var(--me);background:rgba(230,197,125,.14)}.urg .H input:checked+span{border-color:var(--hi);background:rgba(232,154,138,.16)}
+.urg input:focus-visible+span{outline:2px solid var(--lo)}
+form .btn{width:100%;background:var(--lo);color:#1d2b30;border:0;font-weight:600}form .btn:hover{background:#a3dbbb}
+#formStatus{margin:14px 0 0;padding:10px 12px;background:rgba(143,202,168,.14);border-left:2px solid var(--lo);font-size:13px}.hidden{display:none!important}
+.mapwrap{display:flex;gap:18px;align-items:stretch}
+.mapinfo{flex:0 0 150px;display:flex;flex-direction:column;gap:18px;font-size:13px;color:var(--mu)}
+.mapinfo b{display:block;color:var(--tx);font-size:22px;font-weight:400}
+.lg span{display:flex;align-items:center;gap:8px;margin:5px 0}.lg i{width:9px;height:9px;border-radius:50%}
+#clear{background:none;border:1px solid var(--line);color:var(--tx);padding:8px;font:inherit;font-size:13px;cursor:pointer}
+svg{flex:1;min-width:0;height:min(72vh,620px);width:100%}
+.land{fill:url(#g);stroke:rgba(255,255,255,.35);stroke-width:1.2}.lake{fill:#2f4852;stroke:rgba(255,255,255,.18);stroke-width:1}
+.dot{cursor:pointer}.dot circle.c{stroke:#2a373e;stroke-width:2;transition:r .2s}.dot text{fill:var(--tx);font-size:13px;paint-order:stroke;stroke:rgba(30,42,48,.8);stroke-width:3px}
+.dot.idle circle.c{fill:rgba(255,255,255,.35)}.dot.idle text{fill:var(--mu);font-size:11px}.dot.sel text{font-weight:600}
+.ring{fill:none;stroke-width:1.5;transform-box:fill-box;transform-origin:center;animation:p 2.4s ease-out infinite}
+@keyframes p{from{transform:scale(.6);opacity:.9}to{transform:scale(2.2);opacity:0}}
+@media(prefers-reduced-motion:reduce){.ring{animation:none;opacity:.5}html{scroll-behavior:auto}}
+#feed{display:flex;flex-direction:column;gap:12px;max-height:640px;overflow-y:auto;padding-right:4px}
+.card{border:1px solid var(--line);border-left:3px solid var(--c);padding:14px 16px;background:rgba(0,0,0,.14)}
+.card h3{font-size:15px;font-weight:500;margin:0}.card .m{color:var(--mu);font-size:12px;margin:2px 0 8px;display:flex;justify-content:space-between;gap:8px}
+.card p{margin:0;font-size:13px;color:#c7d3d8}.tag{color:var(--c);font-size:12px;font-weight:600}
+.live{display:inline-flex;gap:8px;align-items:center;font-size:12px;color:var(--lo);float:right}.live:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--lo);animation:p 2s infinite}
+.empty{color:var(--mu);font-size:14px;padding:20px 0}
+@media(max-width:1100px){.grid{grid-template-columns:1fr 1fr}.col:nth-child(2){border-right:0}.col:nth-child(3){grid-column:1/-1;border-top:1px solid var(--line)}}
+@media(max-width:760px){.shell{grid-template-columns:1fr}.rail{display:none}.grid{grid-template-columns:1fr}.col{border-right:0;border-bottom:1px solid var(--line)}.mapwrap{flex-direction:column}.mapinfo{flex:none;flex-direction:row;flex-wrap:wrap}svg{height:480px}}
+.pages a{color:var(--mu);text-decoration:none;font-size:14px;padding:4px 0;border-bottom:1px solid transparent;transition:color .2s}.pages a:hover,.pages a.on{color:var(--tx);border-color:var(--lo)}
+.gate{max-width:420px;margin:48px auto;border:1px solid var(--line);background:rgba(42,55,62,.55);padding:32px}
+input[type=password]{width:100%;background:rgba(0,0,0,.18);border:1px solid var(--line);color:var(--tx);font:inherit;font-size:14px;padding:11px 12px;border-radius:0;margin-bottom:16px}
+#gerr{color:var(--hi);font-size:13px;margin:-6px 0 14px}.gate .btn{width:100%;background:var(--lo);color:#1d2b30;border:0;font-weight:600}.ah div{display:flex;gap:10px}
+</style></head>
+<body><div class="shell">
+<aside class="rail" aria-hidden="true"><div><i></i><i></i><i></i></div><span>Rural Malawi · Cross-sector surveillance</span></aside>
+<main>
+<header><div class="logo">One Health<b>.</b></div>
+<nav class="pages" aria-label="Pages"><a id="pgR" href="#/">Reporting</a><a id="pgA" href="#/admin">Admin</a></nav>
+<nav id="sectors" aria-label="Sector filters"><button data-sector="All">All sectors</button><button data-sector="Human Health">Human Health</button><button data-sector="Agriculture">Agriculture</button><button data-sector="Veterinary">Veterinary</button><button data-sector="Environment">Environment</button></nav>
+<a class="btn" id="rbtn" href="#report">Report incident</a></header>
+<div id="viewAdmin" class="hidden"><section id="gate" class="gate" aria-labelledby="gt"><form id="gf" autocomplete="off"><h2 id="gt">Admin sign in</h2><p class="sub">Enter the admin password to manage reports.</p><label for="pw">Password</label><input id="pw" type="password" required autocomplete="current-password"><p id="gerr" class="hidden" role="alert">Incorrect password. Try again.</p><button class="btn" type="submit">Sign in</button></form></section>
+<section class="admin hidden" id="admin" aria-labelledby="at"><div class="ah"><h2 id="at">Admin dashboard</h2><div><button class="btn" id="tog" aria-expanded="true">Hide dashboard</button><button class="btn" id="out">Sign out</button></div></div><div class="ab" id="adminBody"><div class="skel"></div><div class="skel"></div></div></section>
+</div>
+<div id="viewPublic">
+<section class="hero"><img class="himg" alt="" loading="lazy" decoding="async" src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%201200%20460%22%20preserveAspectRatio%3D%22xMidYMid%20slice%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22s%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%237fa0ab%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23d9e4e0%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%221200%22%20height%3D%22460%22%20fill%3D%22url%28%23s%29%22/%3E%3Ccircle%20cx%3D%22860%22%20cy%3D%22150%22%20r%3D%2262%22%20fill%3D%22%23f3ead2%22%20opacity%3D%22.9%22/%3E%3Cpath%20d%3D%22M0%20270C140%20220%20260%20250%20400%20230S660%20180%20800%20225%201040%20250%201200%20205V460H0Z%22%20fill%3D%22%236c8d8b%22/%3E%3Cpath%20d%3D%22M0%20320C180%20285%20300%20330%20520%20300S860%20270%201200%20310V460H0Z%22%20fill%3D%22%2343665f%22/%3E%3Cpath%20d%3D%22M0%20340C250%20330%20480%20370%20760%20345S1060%20335%201200%20350V400H0Z%22%20fill%3D%22%232f4e50%22%20opacity%3D%22.0%22/%3E%3Crect%20x%3D%220%22%20y%3D%22372%22%20width%3D%221200%22%20height%3D%2240%22%20fill%3D%22%2335666f%22%20opacity%3D%22.55%22/%3E%3Cpath%20d%3D%22M0%20410C300%20385%20560%20430%20820%20405S1100%20395%201200%20410V460H0Z%22%20fill%3D%22%2326413f%22/%3E%3Cg%20stroke%3D%22%231f3533%22%20stroke-width%3D%225%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M240%20410V335M240%20355L212%20330M240%20348L270%20322%22/%3E%3C/g%3E%3Cg%20fill%3D%22%231f3533%22%3E%3Cellipse%20cx%3D%22240%22%20cy%3D%22318%22%20rx%3D%2262%22%20ry%3D%2215%22/%3E%3Cellipse%20cx%3D%22205%22%20cy%3D%22325%22%20rx%3D%2230%22%20ry%3D%229%22/%3E%3C/g%3E%3Cg%20stroke%3D%22%231b302f%22%20stroke-width%3D%222.5%22%20opacity%3D%22.7%22%3E%3Cpath%20d%3D%22M420%20455L430%20425%22/%3E%3Cpath%20d%3D%22M450%20455L460%20425%22/%3E%3Cpath%20d%3D%22M480%20455L490%20425%22/%3E%3Cpath%20d%3D%22M510%20455L520%20425%22/%3E%3Cpath%20d%3D%22M540%20455L550%20425%22/%3E%3Cpath%20d%3D%22M570%20455L580%20425%22/%3E%3Cpath%20d%3D%22M600%20455L610%20425%22/%3E%3Cpath%20d%3D%22M630%20455L640%20425%22/%3E%3Cpath%20d%3D%22M660%20455L670%20425%22/%3E%3Cpath%20d%3D%22M690%20455L700%20425%22/%3E%3Cpath%20d%3D%22M720%20455L730%20425%22/%3E%3Cpath%20d%3D%22M750%20455L760%20425%22/%3E%3Cpath%20d%3D%22M780%20455L790%20425%22/%3E%3Cpath%20d%3D%22M810%20455L820%20425%22/%3E%3Cpath%20d%3D%22M840%20455L850%20425%22/%3E%3Cpath%20d%3D%22M870%20455L880%20425%22/%3E%3Cpath%20d%3D%22M900%20455L910%20425%22/%3E%3Cpath%20d%3D%22M930%20455L940%20425%22/%3E%3Cpath%20d%3D%22M960%20455L970%20425%22/%3E%3Cpath%20d%3D%22M990%20455L1000%20425%22/%3E%3Cpath%20d%3D%22M1020%20455L1030%20425%22/%3E%3Cpath%20d%3D%22M1050%20455L1060%20425%22/%3E%3Cpath%20d%3D%22M1080%20455L1090%20425%22/%3E%3Cpath%20d%3D%22M1110%20455L1120%20425%22/%3E%3Cpath%20d%3D%22M1140%20455L1150%20425%22/%3E%3Cpath%20d%3D%22M1170%20455L1180%20425%22/%3E%3C/g%3E%3C/svg%3E" onload="this.classList.add('in')"><div><h1>See the whole health picture, from one report.</h1><p>A lightweight reporting interface connecting human health, agriculture, veterinary and environmental signals across rural Malawi.</p></div>
+<div class="stat"><b id="heroCount">4</b><span>current reports</span></div></section>
+<div class="grid">
+<section class="col" id="report" aria-labelledby="rt"><h2 id="rt">Submit incident report</h2><p class="sub">Enter the key details. The report appears in the live feed and on the map.</p>
+<form id="f"><label for="sector">Reporting sector *</label><select id="sector" required><option value="">Select sector</option><option>Human Health</option><option>Agriculture</option><option>Veterinary</option><option>Environment</option></select>
+<label for="area">District / area *</label><select id="area" required><option value="">Select district / area</option></select>
+<label for="hazard">Hazard type *</label><select id="hazard" required disabled><option value="">Select a sector first</option></select>
+<label for="d">Description *</label><textarea id="d" rows="4" required maxlength="500" placeholder="Briefly describe what was observed, when it started, and who or what is affected."></textarea><div class="cc"><span id="cc">0</span>/500</div>
+<fieldset><legend>Urgency level *</legend><div class="urg"><label class="L"><input type="radio" name="u" value="Low" required><span>Low</span></label><label class="M"><input type="radio" name="u" value="Medium"><span>Medium</span></label><label class="H"><input type="radio" name="u" value="High"><span>High</span></label></div></fieldset>
+<button class="btn" type="submit">Submit incident report</button><p id="formStatus" class="hidden" role="status"></p></form></section>
+
+<section class="col" id="mapBox" aria-labelledby="mt"><h2 id="mt">Map of reports</h2><p class="sub">Real Malawi geography. Select a district to filter the feed.</p>
+<div class="mapwrap"><div class="mapinfo"><div><span id="mapLabel">All districts</span><b id="mapCount">4</b>reports shown</div>
+<div class="lg"><span><i style="background:var(--hi)"></i>High</span><span><i style="background:var(--me)"></i>Medium</span><span><i style="background:var(--lo)"></i>Low</span><span><i style="background:rgba(255,255,255,.35)"></i>No reports</span></div>
+<button id="clear" class="hidden">Show all districts</button></div>
+<svg viewBox="0 0 340 810" role="img" aria-label="Map of Malawi with incident report locations"><defs><radialGradient id="g" cx=".5" cy=".4" r=".8"><stop offset="0" stop-color="#6a818b"/><stop offset="1" stop-color="#4b616b"/></radialGradient></defs>
+<path class="land" d="M190 232L163 308L190 438L224 437L259 469L299 541L308 670L266 691L236 760L173 698L166 628L186 581L180 541L142 516L115 525L60 477L9 451L38 358L69 324L50 241L69 160L86 133L61 48L15 3L111 22L130 49L163 96L190 232Z"/><path class="lake" d="M255 518L247 510L242 505L235 497L229 496L226 484L218 482L218 492L216 499L215 502L211 505L205 507L204 502L197 500L194 494L189 486L192 470L193 462L196 458L197 452L194 447L188 439L181 438L177 435L166 416L170 404L167 374L167 372L166 369L161 361L157 350L153 337L156 332L150 318L144 317L142 314L139 301L141 286L155 270L155 260L160 256L162 253L167 241L165 235L160 209L158 203L157 196L158 173L156 144L154 138L158 133L157 128L161 125L161 121L154 111L149 104L131 73L130 69L127 53L130 48L132 41L134 31L143 31L150 37L167 52L169 58L173 62L188 84L187 89L192 108L191 123L192 131L193 137L196 138L199 145L199 152L201 154L200 160L197 175L195 188L201 197L204 199L206 205L209 209L210 215L213 213L223 220L227 226L229 229L229 237L229 259L220 284L214 290L209 294L205 304L205 321L203 324L206 330L210 338L213 344L216 351L212 359L209 369L214 385L214 397L213 410L219 417L219 420L218 434L221 452L238 453L242 463L245 469L249 482L250 490L255 503L260 516L257 520L255 518Z"/><g id="dots"></g></svg></div></section>
+
+<section class="col" aria-labelledby="ft"><span class="live">Live</span><h2 id="ft">Live incident feed</h2><p class="sub"><span id="count">4</span> reports · updates appear instantly</p><div id="feed"></div></section>
+</div></div></main></div>
+<script>
+const hazards={"Human Health":["Respiratory uptick","Suspected diarrhoeal outbreak","Febrile illness cluster","Other"],"Agriculture":["Moldy Maize / Aflatoxin","Crop pest outbreak","Livestock feed concern","Other"],"Veterinary":["Livestock illness","Unusual animal deaths","Zoonotic disease concern","Other"],"Environment":["Water contamination","Flooding","Unusual wildlife deaths","Environmental pollution","Other"]};
+const areas={Lilongwe:[33.78,-13.98],Zomba:[35.33,-15.38],Blantyre:[35.0,-15.79],Mangochi:[35.26,-14.48],Mzuzu:[34.02,-11.46],Kasungu:[33.48,-13.03],Mulanje:[35.5,-16.03],Salima:[34.45,-13.78]};
+const proj=(lo,la)=>[(lo-32.6)*97,(-la-9.2)*100];
+let reports=[];
+let fSector="All",fArea=null,shown=5;const ready={map:false,admin:false};const stc={Open:"var(--hi)",Investigating:"var(--me)",Resolved:"var(--lo)"};
+const $=id=>document.getElementById(id),col={High:"var(--hi)",Medium:"var(--me)",Low:"var(--lo)"},rank={Low:1,Medium:2,High:3};
+const esc=v=>String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+const ago=t=>{const s=Math.max(0,(Date.now()-new Date(t))/1000);if(s<60)return"Just now";const m=Math.floor(s/60);if(m<60)return m+" min ago";const h=Math.floor(m/60);if(h<24)return h+" hr ago";const d=Math.floor(h/24);return d+(d==1?" day ago":" days ago")};
+let token=null;try{token=sessionStorage.getItem("oh_token")}catch(e){}
+async function api(path,opts={}){const h={"Content-Type":"application/json"};if(token&&opts.auth!==false)h.Authorization="Bearer "+token;const r=await fetch("/api"+path,{...opts,headers:h});if(r.status===204)return null;const j=await r.json().catch(()=>({}));if(!r.ok){if(r.status===401&&token&&path.indexOf("/admin/login")!==0)signOut();const e=new Error(j.error||"Request failed");e.data=j;throw e}return j}
+async function loadReports(quiet){try{const j=await api("/reports?limit=500",{auth:false});reports=j.reports;render()}catch(e){if(!quiet)$("feed").innerHTML='<p class="empty">Could not load reports. Check your connection.</p>'}}
+const applyCreate=r=>{if(!reports.some(x=>x.id===r.id)){reports.unshift(r);render()}};
+const applyUpdate=r=>{const i=reports.findIndex(x=>x.id===r.id);if(i>-1){reports[i]=r;render()}};
+const applyDelete=id=>{reports=reports.filter(x=>x.id!==id);render()};
+function connect(){const busy=()=>{const a=document.activeElement;return a&&a.closest&&a.closest("#adminBody")};const poll=()=>{if(!document.hidden&&!busy())loadReports(true)};setInterval(poll,15000);document.addEventListener("visibilitychange",poll)}
+const area=$("area");Object.keys(areas).forEach(a=>area.add(new Option(a,a)));
+function updateHazards(){const s=$("sector").value,h=$("hazard");h.innerHTML="";if(!s){h.disabled=true;h.add(new Option("Select a sector first",""));return}h.disabled=false;h.add(new Option("Select hazard type",""));hazards[s].forEach(x=>h.add(new Option(x,x)))}
+function visible(){return reports.filter(r=>(fSector==="All"||r.sector===fSector)&&(!fArea||r.area===fArea))}
+const card=r=>`<article class="card" style="--c:${col[r.urgency]}"><h3>${esc(r.hazard)}</h3><div class="m"><span>${esc(r.sector)} · ${esc(r.area)}</span><time>${ago(r.createdAt)}</time></div><p>${esc(r.description)}</p><div class="tag" style="margin-top:8px">${r.urgency} urgency · ${r.status}</div></article>`;
+function render(){
+ const v=visible(),part=v.slice(0,shown);
+ $("feed").innerHTML=(part.length?part.map(card).join(""):'<p class="empty">No reports match this filter yet.</p>')+(v.length>shown?'<div id="more" class="empty">Loading more…</div>':"");
+ if($("more"))moreIO.observe($("more"));
+ $("count").textContent=v.length;$("heroCount").textContent=reports.length;
+ if(ready.map)drawMap();if(ready.admin)drawAdmin();
+}
+function drawMap(){
+ const v=visible();$("mapCount").textContent=v.length;$("mapLabel").textContent=fArea||"All districts";$("clear").classList.toggle("hidden",!fArea);
+ const base=reports.filter(r=>r.status!=="Resolved"&&(fSector==="All"||r.sector===fSector));
+ $("dots").innerHTML=Object.entries(areas).map(([n,[lo,la]])=>{const rs=base.filter(r=>r.area===n),[x,y]=proj(lo,la);
+  const top=rs.reduce((m,r)=>rank[r.urgency]>rank[m]?r.urgency:m,"Low"),c=rs.length?col[top]:"",rad=rs.length?7+Math.min(rs.length,5)*1.5:4.5;
+  return `<g class="dot ${rs.length?"":"idle"} ${fArea===n?"sel":""}" data-a="${n}" tabindex="0" role="button" aria-label="${n}, ${rs.length} open reports"><title>${n}: ${rs.length} open reports</title>${rs.length?`<circle class="ring" cx="${x}" cy="${y}" r="${rad}" stroke="${c}"/>`:""}<circle class="c" cx="${x}" cy="${y}" r="${rad}" ${rs.length?`fill="${c}"`:""}/><text x="${x+rad+6}" y="${y+4}">${n}${rs.length?" · "+rs.length:""}</text></g>`}).join("");
+}
+function drawAdmin(){
+ const open=reports.filter(r=>r.status!=="Resolved"),n=reports.length||1;
+ const sec=["Human Health","Agriculture","Veterinary","Environment"].map(s=>[s,reports.filter(r=>r.sector===s).length]),mx=Math.max(1,...sec.map(s=>s[1]));
+ const u=["High","Medium","Low"].map(k=>[k,reports.filter(r=>r.urgency===k).length]);
+ $("adminBody").innerHTML=`<div class="kpis"><div><b>${reports.length}</b>Total reports</div><div><b style="color:var(--hi)">${open.filter(r=>r.urgency==="High").length}</b>High urgency, unresolved</div><div><b>${open.length}</b>Unresolved</div><div><b>${new Set(open.map(r=>r.area)).size}</b>Districts affected</div></div>
+ <div class="charts"><div><h3>Reports by sector</h3>${sec.map(([s,c])=>`<div class="bar"><span>${s}</span><i style="width:${c/mx*100}%"></i><span>${c}</span></div>`).join("")}</div>
+ <div><h3>Reports by urgency</h3><div class="stack">${u.map(([k,c])=>`<i style="width:${c/n*100}%;background:${col[k]}"></i>`).join("")}</div>${u.map(([k,c])=>`<div class="bar" style="grid-template-columns:100px 1fr"><span>${k}</span><span>${c}</span></div>`).join("")}</div></div>
+ <div class="tw"><table><thead><tr><th>Hazard</th><th>Sector</th><th>District</th><th>Urgency</th><th>Status</th><th>Time</th><th></th></tr></thead><tbody>${reports.map(r=>`<tr><td>${esc(r.hazard)}</td><td>${esc(r.sector)}</td><td>${esc(r.area)}</td><td style="color:${col[r.urgency]}">${r.urgency}</td><td><select class="st" data-id="${r.id}" aria-label="Status for ${esc(r.hazard)}">${["Open","Investigating","Resolved"].map(s=>`<option${s===r.status?" selected":""}>${s}</option>`).join("")}</select></td><td>${ago(r.createdAt)}</td><td><button class="del" data-del="${r.id}">Delete</button></td></tr>`).join("")||'<tr><td colspan="7" class="empty">No reports yet.</td></tr>'}</tbody></table></div>`;
+}
+let authed=!!token;
+function route(){const a=location.hash==="#/admin";
+ $("viewPublic").classList.toggle("hidden",a);$("viewAdmin").classList.toggle("hidden",!a);$("sectors").classList.toggle("hidden",a);$("rbtn").classList.toggle("hidden",a);
+ $("pgR").classList.toggle("on",!a);$("pgA").classList.toggle("on",a);
+ $("gate").classList.toggle("hidden",authed);$("admin").classList.toggle("hidden",!authed);
+ if(a&&authed){ready.admin=true;drawAdmin()}
+ if(a)window.scrollTo(0,0)}
+$("gf").addEventListener("submit",async e=>{e.preventDefault();
+ try{const j=await api("/admin/login",{method:"POST",body:JSON.stringify({password:$("pw").value}),auth:false});token=j.token;try{sessionStorage.setItem("oh_token",token)}catch(x){}authed=true;$("pw").value="";$("gerr").classList.add("hidden");await loadReports();route()}
+ catch(err){$("gerr").textContent=/Too many/.test(err.message)?err.message:"Incorrect password. Try again.";$("gerr").classList.remove("hidden");$("pw").select()}});
+function signOut(){authed=false;ready.admin=false;token=null;try{sessionStorage.removeItem("oh_token")}catch(x){}$("adminBody").innerHTML='<div class="skel"></div>';location.hash="#/";route()}
+$("out").onclick=signOut;
+addEventListener("hashchange",route);
+const lazy=(el,key)=>{const io=new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){ready[key]=true;if(key==="map")$("mapBox").querySelector("svg").classList.add("ready");render();o.disconnect()}},{rootMargin:"200px"});io.observe(el)};
+const moreIO=new IntersectionObserver(es=>{if(es[0].isIntersecting){moreIO.disconnect();shown+=5;render()}},{root:$("feed")});
+$("adminBody").addEventListener("change",async e=>{if(e.target.classList.contains("st")){try{applyUpdate(await api("/reports/"+e.target.dataset.id,{method:"PATCH",body:JSON.stringify({status:e.target.value})}))}catch(err){alert(err.message);render()}}});
+$("adminBody").addEventListener("click",async e=>{const d=e.target.dataset.del;if(d){if(!confirm("Delete this report permanently?"))return;try{await api("/reports/"+d,{method:"DELETE"});applyDelete(+d)}catch(err){alert(err.message)}}});
+$("tog").onclick=()=>{const h=$("adminBody").classList.toggle("hidden");$("tog").textContent=h?"Show dashboard":"Hide dashboard";$("tog").setAttribute("aria-expanded",!h)};
+$("dots").addEventListener("click",e=>{const g=e.target.closest(".dot");if(g){fArea=fArea===g.dataset.a?null:g.dataset.a;shown=5;render()}});
+$("dots").addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();e.target.closest(".dot")?.dispatchEvent(new Event("click",{bubbles:true}))}});
+$("clear").onclick=()=>{fArea=null;shown=5;render()};
+$("sector").addEventListener("change",updateHazards);
+$("d").addEventListener("input",()=>$("cc").textContent=$("d").value.length);
+$("f").addEventListener("submit",async e=>{e.preventDefault();const d=new FormData($("f")),s=$("formStatus"),btn=$("f").querySelector("button");
+ btn.disabled=true;
+ try{const r=await api("/reports",{method:"POST",auth:false,body:JSON.stringify({sector:$("sector").value,area:area.value,hazard:$("hazard").value,description:$("d").value,urgency:d.get("u")})});
+  applyCreate(r);$("f").reset();updateHazards();$("cc").textContent="0";s.textContent="Incident submitted and added to the live feed."}
+ catch(err){s.textContent=err.data&&err.data.errors?Object.values(err.data.errors).join(" "):err.message}
+ finally{btn.disabled=false;s.classList.remove("hidden");setTimeout(()=>s.classList.add("hidden"),5000)}});
+document.querySelectorAll("nav button").forEach(b=>b.addEventListener("click",()=>{fSector=b.dataset.sector;shown=5;document.querySelectorAll("nav button").forEach(x=>x.classList.toggle("on",x===b));render()}));
+document.querySelector('[data-sector="All"]').classList.add("on");loadReports();lazy($("mapBox"),"map");route();connect();setInterval(()=>{if(!document.hidden)render()},60000);
+</script></body></html>
