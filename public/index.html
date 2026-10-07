@@ -41,7 +41,6 @@
       font-size: 15px;
       line-height: 1.6;
       color: var(--tx);
-      /* ---- BACKGROUND IMAGE ---- */
       background:
         linear-gradient(rgba(18, 28, 33, 0.82), rgba(15, 24, 29, 0.92)),
         url('/images/background-1.jpg') center/cover fixed no-repeat;
@@ -67,7 +66,7 @@
     .rail i:nth-child(2) { width: 13px; margin-left: 7px; }
     .rail span { writing-mode: vertical-rl; transform: rotate(180deg); color: var(--mu); font-size: 11px; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; }
 
-    main { padding: 0 clamp(20px, 4vw, 48px) 64px; min-width: 0; }
+    main { padding: 0 clamp(20px, 4vw, 48px) 0; min-width: 0; display: flex; flex-direction: column; min-height: 100vh; }
 
     header { display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; padding: 28px 0 16px; border-bottom: 1px solid var(--line); margin-bottom: 24px; }
     .logo { font-size: 28px; font-weight: 500; letter-spacing: -0.02em; color: var(--tx); }
@@ -267,6 +266,104 @@
     .gate .btn { width: 100%; background: var(--lo); color: #15262b; border: none; font-weight: 600; padding: 14px 24px; border-radius: var(--radius-sm); box-shadow: 0 4px 14px rgba(141, 208, 168, 0.25); }
     .gate .btn:hover { background: #a3dbbb; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(141, 208, 168, 0.35); }
 
+    /* ---------- FOOTER ---------- */
+    .site-footer {
+      margin-top: auto;
+      padding: 32px 0 28px;
+      border-top: 1px solid var(--line);
+      background: rgba(18, 28, 33, 0.55);
+      backdrop-filter: blur(6px);
+    }
+    .footer-inner {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+    .footer-brand .f-logo {
+      font-size: 20px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      color: var(--tx);
+      margin-bottom: 8px;
+    }
+    .footer-brand .f-logo b { color: var(--lo); font-weight: 500; }
+    .footer-brand p {
+      color: var(--mu);
+      font-size: 13px;
+      font-weight: 300;
+      max-width: 32em;
+      line-height: 1.6;
+    }
+    .footer-col h4 {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--tx-soft);
+      margin-bottom: 12px;
+    }
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .footer-col a {
+      color: var(--mu);
+      font-size: 13px;
+      text-decoration: none;
+      transition: color var(--transition), padding-left var(--transition);
+      display: inline-block;
+    }
+    .footer-col a:hover {
+      color: var(--lo);
+      padding-left: 4px;
+    }
+    .footer-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--lo);
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+    .footer-status::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--lo);
+      box-shadow: 0 0 0 3px rgba(141, 208, 168, 0.15);
+      animation: pulse 2s infinite;
+    }
+    .footer-bottom {
+      margin-top: 28px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      font-size: 12px;
+      color: var(--mu);
+      font-weight: 400;
+      letter-spacing: 0.01em;
+    }
+    .footer-bottom .credit b {
+      color: var(--tx-soft);
+      font-weight: 500;
+    }
+    .footer-bottom .credit .fl {
+      color: var(--lo);
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
     @media (max-width: 1200px) {
       .grid { grid-template-columns: 1fr 1fr; }
       .col:nth-child(2) { border-right: 0; }
@@ -279,6 +376,7 @@
       .kpis div:nth-child(2) { border-right: 0; }
       .kpis div:nth-child(3), .kpis div:nth-child(4) { border-top: 1px solid var(--line); }
       .charts { grid-template-columns: 1fr; gap: 24px; }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
     }
     @media (max-width: 760px) {
       .shell { grid-template-columns: 1fr; }
@@ -306,9 +404,11 @@
       .kpis div { padding: 16px 18px; }
       .kpis b { font-size: 28px; }
       .bar { grid-template-columns: 80px 1fr 28px; gap: 8px; }
+      .footer-inner { grid-template-columns: 1fr; gap: 24px; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; text-align: left; }
     }
     @media (max-width: 480px) {
-      main { padding: 0 14px 40px; }
+      main { padding: 0 14px 0; }
       .hero { padding: 32px 0 24px; min-height: 220px; }
       .hero > div { padding: 0 16px; }
       .hero h1 { font-size: 26px; }
@@ -319,12 +419,14 @@
       .kpis div:last-child { border-bottom: 0; }
       .kpis div:nth-child(3), .kpis div:nth-child(4) { border-top: 0; }
       .btn { padding: 10px 18px; font-size: 13px; }
+      .site-footer { padding: 24px 0 20px; }
     }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
       .skel { animation: none; background: rgba(255, 255, 255, 0.06); }
       .ring { animation: none; opacity: 0.4; }
       .himg { transition: none; }
+      .footer-status::before { animation: none; }
     }
   </style>
 </head>
@@ -483,6 +585,30 @@
           </section>
         </div>
       </div>
+
+      <!-- ---------- FOOTER ---------- -->
+      <footer class="site-footer" role="contentinfo">
+        <div class="footer-inner">
+          <div class="footer-brand">
+            <div class="f-logo">One Health<b>.</b> Malawi</div>
+            <p>A cross-sector reporting platform connecting human, animal, agricultural, and environmental health signals across Malawi. Built for rapid detection, coordinated response, and community resilience.</p>
+            <span class="footer-status">System operational</span>
+          </div>
+          <div class="footer-col">
+            <h4>Platform</h4>
+            <ul>
+              <li><a href="#/">Reporting</a></li>
+              <li><a href="#/admin">Admin dashboard</a></li>
+              <li><a href="#report">Submit incident</a></li>
+              <li><a href="#mapBox">View map</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span class="credit">Designed by <span class="fl">ForgeLabs</span> · © 2026 ForgeLabs. All rights reserved.</span>
+          <span>v1.0 · Built for One Health Malawi</span>
+        </div>
+      </footer>
     </main>
   </div>
 
